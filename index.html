@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant – Menu & Billing</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">Restaurant</h1>
+    <nav class="main-nav" role="navigation">
+      <button type="button" class="nav-btn active" data-section="menu">Menu</button>
+      <button type="button" class="nav-btn" data-section="manage">Manage Menu</button>
+      <button type="button" class="nav-btn" data-section="report">Sales Report</button>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <!-- Menu + Cart / Billing -->
+    <section id="section-menu" class="section active">
+      <div class="menu-layout">
+        <div class="menu-area">
+          <h2 class="section-heading">Menu</h2>
+          <div id="menu-grid" class="menu-grid" role="list"></div>
+        </div>
+        <aside class="cart-area">
+          <h2 class="section-heading">Cart & Bill</h2>
+          <div id="cart-list" class="cart-list" role="list"></div>
+          <div id="cart-empty" class="cart-empty">Cart is empty. Click menu items to add.</div>
+          <div id="bill-summary" class="bill-summary" hidden>
+            <div class="bill-row bill-total"><span>Total</span><span id="bill-total">₹0</span></div>
+          </div>
+          <div class="cart-actions" id="cart-actions" hidden>
+            <button type="button" class="btn btn-secondary" id="btn-clear-cart">Clear cart</button>
+            <button type="button" class="btn btn-primary" id="btn-print">Print bill</button>
+            <button type="button" class="btn btn-primary" id="btn-pay-now">Pay now</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Manage Menu (CRUD) -->
+    <section id="section-manage" class="section">
+      <h2 class="section-heading">Manage Menu</h2>
+      <form id="form-menu" class="form-menu">
+        <input type="hidden" id="form-item-id" name="id">
+        <div class="form-row">
+          <label for="form-name">Name</label>
+          <input type="text" id="form-name" name="name" required placeholder="e.g. Idly">
+        </div>
+        <div class="form-row">
+          <label for="form-price">Price (₹)</label>
+          <input type="number" id="form-price" name="price" required min="1" step="0.01" placeholder="40">
+        </div>
+        <div class="form-row">
+          <label for="form-image">Image URL</label>
+          <input type="url" id="form-image" name="imageUrl" placeholder="https://...">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="btn-save">Add item</button>
+          <button type="button" class="btn btn-secondary" id="btn-cancel-edit">Cancel</button>
+        </div>
+      </form>
+      <div id="manage-list" class="manage-list"></div>
+    </section>
+
+    <!-- Monthly Sales Report -->
+    <section id="section-report" class="section">
+      <h2 class="section-heading">Monthly Sales Report</h2>
+      <div class="report-controls">
+        <label for="report-month">Month</label>
+        <input type="month" id="report-month" name="month">
+        <button type="button" class="btn btn-primary" id="btn-refresh-report">Refresh</button>
+      </div>
+      <p id="report-total" class="report-total"></p>
+      <div id="report-table-wrap" class="report-table-wrap">
+        <table id="report-table" class="report-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Items</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="report-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pay now – QR modal -->
+  <div id="modal-qr" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-qr-title">
+    <div class="modal-backdrop" id="modal-qr-backdrop"></div>
+    <div class="modal-content">
+      <h2 id="modal-qr-title" class="modal-title">Pay now</h2>
+      <p class="modal-amount">Amount: <strong id="modal-qr-amount">₹0</strong></p>
+      <div id="qrcode" class="qrcode-container"></div>
+      <p class="modal-hint">Scan with UPI app to pay.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="btn-confirm-payment">Confirm payment</button>
+        <button type="button" class="btn btn-secondary" id="btn-close-qr">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print-only bill (hidden on screen, shown when printing) -->
+  <div id="print-bill" class="print-bill" aria-hidden="true">
+    <h2>Restaurant – Bill</h2>
+    <div id="print-bill-content"></div>
+    <p class="print-bill-total">Total: <strong id="print-bill-total">₹0</strong></p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
